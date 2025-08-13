@@ -1,5 +1,6 @@
 const nickname = prompt("請輸入你的暱稱") || "匿名";
-const socket = new WebSocket('ws://localhost:3000');
+const socket = new WebSocket('wss://websocket-server-kj60.onrender.com');
+
 
 const chatLog = document.getElementById('chatLog');
 const input = document.getElementById('msgInput');
