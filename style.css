@@ -1,0 +1,86 @@
+body {
+  font-family: sans-serif;
+  background-color: #f0f8ff;
+  display: flex;
+  justify-content: center;
+  padding-top: 50px;
+}
+
+#chatContainer {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  padding: 20px;
+  width: 400px;
+}
+
+h1 {
+  text-align: center;
+  color: #0077cc;
+}
+
+#chatLog {
+  list-style: none;
+  padding: 0;
+  height: 300px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+#chatLog li {
+  padding: 6px 12px;
+  margin: 4px 8px;
+  max-width: 70%;
+  border-radius: 10px;
+  clear: both;
+  position: relative;
+  word-wrap: break-word;
+  background-color: #d4f4dd; /* 舒服的綠色 */
+}
+
+.self {
+  align-self: flex-end;
+  text-align: right;
+}
+
+.other {
+  align-self: flex-start;
+  text-align: left;
+}
+
+.timestamp {
+  display: block;
+  font-size: 0.75em;
+  color: #555;
+  margin-top: 2px;
+}
+
+#inputArea {
+  display: flex;
+  gap: 5px;
+}
+
+#msgInput {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+#sendBtn {
+  padding: 10px 15px;
+  font-size: 16px;
+  background-color: #0077cc;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#sendBtn:hover {
+  background-color: #005fa3;
+}
