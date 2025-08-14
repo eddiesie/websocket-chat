@@ -1,27 +1,26 @@
 let chatHistory = [];
 
 wss.on('connection', ws => {
-  // 新使用者連線時，傳送歷史訊息
+  // 🕘 傳送歷史訊息給新連線使用者
   chatHistory.forEach(data => {
     ws.send(JSON.stringify(data));
   });
 
   ws.on('message', message => {
-    const data = JSON.parse(message);
-
-    // 📨 處理使用者發送訊息
-    if (data.type === 'message') {
-      chatHistory.push(data);
-      if (chatHistory.length > 100) chatHistory.shift();
-
-      wss.clients.forEach(client => {
-        if (client.readyState === WebSocket.OPEN) {
-          client.send(JSON.stringify(data));
-        }
-      });
+    let data;
+    try {
+      data = JSON.parse(message); // ⛑️ 防呆處理，避免接收到非 JSON
+    } catch (err) {
+      console.warn('收到非 JSON 資料，略過：', message);
+      return;
     }
 
-    // ✅ 處理加入聊天室
+    // 📨 處理一般訊息
+    if (data.type === 'message') {
+      saveAndBroadcast(data);
+    }
+
+    // ✅ 加入聊天室
     if (data.type === 'join') {
       console.log(`${data.name} 加入聊天室`);
 
@@ -32,17 +31,10 @@ wss.on('connection', ws => {
         time: new Date().toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit' })
       };
 
-      chatHistory.push(joinMsg);
-      if (chatHistory.length > 100) chatHistory.shift();
-
-      wss.clients.forEach(client => {
-        if (client.readyState === WebSocket.OPEN) {
-          client.send(JSON.stringify(joinMsg));
-        }
-      });
+      saveAndBroadcast(joinMsg);
     }
 
-    // ✅ 處理離開聊天室
+    // ❌ 離開聊天室
     if (data.type === 'leave') {
       console.log(`${data.name} 離開聊天室`);
 
@@ -53,14 +45,19 @@ wss.on('connection', ws => {
         time: new Date().toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit' })
       };
 
-      chatHistory.push(leaveMsg);
-      if (chatHistory.length > 100) chatHistory.shift();
-
-      wss.clients.forEach(client => {
-        if (client.readyState === WebSocket.OPEN) {
-          client.send(JSON.stringify(leaveMsg));
-        }
-      });
+      saveAndBroadcast(leaveMsg);
     }
   });
 });
+
+// 🧠 儲存訊息並廣播的共用函式
+function saveAndBroadcast(data) {
+  chatHistory.push(data);
+  if (chatHistory.length > 100) chatHistory.shift();
+
+  wss.clients.forEach(client => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(JSON.stringify(data));
+    }
+  });
+}
