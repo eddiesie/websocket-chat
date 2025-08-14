@@ -44,16 +44,25 @@ socket.addEventListener('message', event => {
 });
 
 input.addEventListener('keydown', event => {
-  if (event.key === 'Enter') sendMessage();
+  if (event.key === 'Enter') {
+    sendMessage();
+  }
 });
+
 sendBtn.addEventListener('click', sendMessage);
 
 socket.addEventListener('open', () => {
-  const join = { type: "join", name: nickname };
+  const join = {
+    type: "join",
+    name: nickname
+  };
   socket.send(JSON.stringify(join));
 });
 
 window.addEventListener('beforeunload', () => {
-  const leave = { type: "leave", name: nickname };
+  const leave = {
+    type: "leave",
+    name: nickname
+  };
   socket.send(JSON.stringify(leave));
 });

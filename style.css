@@ -29,37 +29,38 @@ h1 {
 }
 
 #chatLog li {
-  padding: 6px 10px;
-  margin: 4px;
+  margin: 6px;
+  padding: 8px 12px;
+  border-radius: 10px;
   max-width: 80%;
-  border-radius: 8px;
   position: relative;
-  background-color: #e0f7e9;
-  word-break: break-word;
+  background-color: #d9fdd3;
 }
 
-#chatLog li.self {
-  background-color: #b6f7c1;
-  margin-left: auto;
+.self {
+  align-self: flex-end;
   text-align: right;
+  margin-left: auto;
+  background-color: #b2f2bb;
 }
 
-#chatLog li.other {
-  background-color: #d9f3e6;
-  margin-right: auto;
+.other {
+  align-self: flex-start;
   text-align: left;
+  margin-right: auto;
+  background-color: #d9fdd3;
 }
 
 .timestamp {
   display: block;
-  font-size: 10px;
-  color: #888;
+  font-size: 0.75em;
+  color: #555;
   margin-top: 4px;
 }
 
 #inputArea {
   display: flex;
-  gap: 8px;
+  gap: 10px;
 }
 
 #msgInput {
@@ -72,9 +73,14 @@ h1 {
 
 #sendBtn {
   padding: 10px 16px;
-  border: none;
-  background-color: #3cb371;
+  font-size: 16px;
+  background-color: #28a745;
   color: white;
+  border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+
+#sendBtn:hover {
+  background-color: #218838;
 }
