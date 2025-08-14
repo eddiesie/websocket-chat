@@ -19,6 +19,7 @@ h1 {
   color: #0077cc;
 }
 
+/* 讓訊息列表成為直向 flex，才能用 align-self 控制左右 */
 #chatLog {
   list-style: none;
   padding: 0;
@@ -26,29 +27,40 @@ h1 {
   overflow-y: auto;
   border: 1px solid #ccc;
   margin-bottom: 10px;
+
+  display: flex;              /* 新增 */
+  flex-direction: column;     /* 新增 */
+  gap: 6px;                   /* 新增：訊息間距 */
 }
 
+/* 訊息泡泡：寬度依內容、但不超過容器的一定比例 */
 #chatLog li {
-  margin: 6px;
+  display: inline-block;      /* 新增：讓寬度跟內容走 */
+  width: fit-content;         /* 新增：自適應內容長度 */
+  max-width: 78%;             /* 可依喜好調整上限 */
+  margin: 0;                  /* 交給 align-self 控制左右 */
   padding: 8px 12px;
-  border-radius: 10px;
-  max-width: 80%;
+  border-radius: 14px;
   position: relative;
   background-color: #d9fdd3;
+
+  white-space: pre-wrap;      /* 新增：保留換行、可自動換行 */
+  word-break: break-word;     /* 新增：長字也可斷行 */
+  overflow-wrap: anywhere;    /* 新增：更兇的斷行策略，避免溢出 */
 }
 
+/* 自己的訊息靠右 */
 .self {
-  align-self: flex-end;
-  text-align: right;
-  margin-left: auto;
+  align-self: flex-end;       /* 右側對齊關鍵 */
   background-color: #b2f2bb;
+  text-align: left;           /* 泡泡內文字仍然左對齊較好讀 */
 }
 
+/* 別人的訊息靠左 */
 .other {
-  align-self: flex-start;
-  text-align: left;
-  margin-right: auto;
+  align-self: flex-start;     /* 左側對齊關鍵 */
   background-color: #d9fdd3;
+  text-align: left;
 }
 
 .timestamp {
@@ -56,7 +68,9 @@ h1 {
   font-size: 0.75em;
   color: #555;
   margin-top: 4px;
+  text-align: right;          /* 時間靠泡泡右下角 */
 }
+
 
 #inputArea {
   display: flex;
