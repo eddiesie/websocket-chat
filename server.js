@@ -1,27 +1,21 @@
 let chatHistory = [];
 
 wss.on('connection', ws => {
-  // 傳送歷史紀錄給新連線者
-  chatHistory.forEach(msg => {
-    ws.send(msg);
+  // 傳送歷史訊息給新連線者
+  chatHistory.forEach(data => {
+    ws.send(JSON.stringify(data));
   });
 
   ws.on('message', message => {
     const data = JSON.parse(message);
 
     if (data.type === 'message') {
-      const formatted = `${data.name}: ${data.text}|||${data.time}|||${data.name}`;
-      chatHistory.push(formatted);
+      chatHistory.push(data);
+      if (chatHistory.length > 100) chatHistory.shift();
 
-      // 限制紀錄數量（避免爆記憶體）
-      if (chatHistory.length > 100) {
-        chatHistory.shift(); // 移除最舊的訊息
-      }
-
-      // 廣播給所有人
       wss.clients.forEach(client => {
         if (client.readyState === WebSocket.OPEN) {
-          client.send(formatted);
+          client.send(JSON.stringify(data));
         }
       });
     }
