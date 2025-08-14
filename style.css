@@ -1,77 +1,90 @@
+/* ====== 基本版面 ====== */
 body {
   font-family: sans-serif;
   background-color: #f0f8ff;
   display: flex;
   justify-content: center;
   padding-top: 50px;
+  margin: 0;
 }
 
 #chatContainer {
-  background: white;
+  background: #fff;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  box-shadow: 0 0 10px rgba(0,0,0,.1);
   padding: 20px;
   width: 400px;
 }
 
 h1 {
+  margin: 0 0 12px;
   text-align: center;
   color: #0077cc;
 }
 
-/* 讓訊息列表成為直向 flex，才能用 align-self 控制左右 */
+/* ====== 訊息列表（直向 Flex） ====== */
 #chatLog {
   list-style: none;
-  padding: 0;
+  padding: 10px;
   height: 300px;
   overflow-y: auto;
   border: 1px solid #ccc;
-  margin-bottom: 10px;
+  border-radius: 8px;
+  margin: 0 0 10px;
 
-  display: flex;              /* 新增 */
-  flex-direction: column;     /* 新增 */
-  gap: 6px;                   /* 新增：訊息間距 */
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;           /* ★ 關鍵：避免 children 被拉滿寬度 */
+  box-sizing: border-box;
 }
 
-/* 訊息泡泡：寬度依內容、但不超過容器的一定比例 */
+/* ====== 訊息泡泡（依內容寬度） ====== */
 #chatLog li {
-  display: inline-block;      /* 新增：讓寬度跟內容走 */
-  width: fit-content;         /* 新增：自適應內容長度 */
-  max-width: 78%;             /* 可依喜好調整上限 */
-  margin: 0;                  /* 交給 align-self 控制左右 */
+  display: inline-block;             /* 讓寬度跟內容走 */
+  max-width: 78%;                    /* 避免過寬 */
   padding: 8px 12px;
   border-radius: 14px;
   position: relative;
   background-color: #d9fdd3;
 
-  white-space: pre-wrap;      /* 新增：保留換行、可自動換行 */
-  word-break: break-word;     /* 新增：長字也可斷行 */
-  overflow-wrap: anywhere;    /* 新增：更兇的斷行策略，避免溢出 */
+  white-space: pre-wrap;             /* 保留換行 */
+  word-break: break-word;            /* 長字可斷行 */
+  overflow-wrap: anywhere;           /* 更強力的斷行，保護版面 */
+  box-sizing: border-box;
 }
 
-/* 自己的訊息靠右 */
+/* ====== 自己／別人／系統 ====== */
 .self {
-  align-self: flex-end;       /* 右側對齊關鍵 */
   background-color: #b2f2bb;
-  text-align: left;           /* 泡泡內文字仍然左對齊較好讀 */
-}
-
-/* 別人的訊息靠左 */
-.other {
-  align-self: flex-start;     /* 左側對齊關鍵 */
-  background-color: #d9fdd3;
+  margin-left: auto;                 /* ★ 關鍵：推到右邊 */
   text-align: left;
 }
 
+.other {
+  background-color: #d9fdd3;
+  margin-right: auto;                /* 保持左側 */
+  text-align: left;
+}
+
+/* 可選：系統訊息置中灰色（若有套用 .system 類別） */
+.system {
+  background: #eee;
+  color: #555;
+  align-self: center;                /* 水平置中 */
+  max-width: 90%;
+}
+
+/* ====== 時間戳 ====== */
 .timestamp {
   display: block;
   font-size: 0.75em;
   color: #555;
   margin-top: 4px;
-  text-align: right;          /* 時間靠泡泡右下角 */
+  text-align: right;                 /* 右下角 */
 }
 
-
+/* ====== 輸入區 ====== */
 #inputArea {
   display: flex;
   gap: 10px;
@@ -83,13 +96,14 @@ h1 {
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
+  box-sizing: border-box;
 }
 
 #sendBtn {
   padding: 10px 16px;
   font-size: 16px;
   background-color: #28a745;
-  color: white;
+  color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -97,4 +111,16 @@ h1 {
 
 #sendBtn:hover {
   background-color: #218838;
+}
+
+/* ======（可選）滾動條微調，美觀用，需支援 WebKit ====== */
+#chatLog::-webkit-scrollbar {
+  width: 8px;
+}
+#chatLog::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,.2);
+  border-radius: 4px;
+}
+#chatLog::-webkit-scrollbar-track {
+  background: rgba(0,0,0,.06);
 }
