@@ -35,43 +35,50 @@ h1 {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  align-items: flex-start;           /* ★ 關鍵：避免 children 被拉滿寬度 */
+  align-items: flex-start; /* 避免 children 被拉滿寬度 */
   box-sizing: border-box;
 }
 
 /* ====== 訊息泡泡（依內容寬度） ====== */
-#chatLog li {
-  display: inline-block;             /* 讓寬度跟內容走 */
-  max-width: 78%;                    /* 避免過寬 */
+#chatLog > li {
+  flex: 0 0 auto;                /* 不伸展、不壓縮 */
+  align-self: flex-start;        /* 預設靠左 */
+
+  display: inline-block;
+  width: auto;
+  max-width: 78%;                /* 避免過寬 */
   padding: 8px 12px;
   border-radius: 14px;
   position: relative;
   background-color: #d9fdd3;
 
-  white-space: pre-wrap;             /* 保留換行 */
-  word-break: break-word;            /* 長字可斷行 */
-  overflow-wrap: anywhere;           /* 更強力的斷行，保護版面 */
+  white-space: pre-wrap;         /* 保留換行 */
+  word-break: break-word;        /* 長字可斷行 */
+  overflow-wrap: anywhere;       /* 防止長字/網址撐破版面 */
   box-sizing: border-box;
+  margin: 0;                     /* 靠 margin 推位置 */
 }
 
 /* ====== 自己／別人／系統 ====== */
 .self {
   background-color: #b2f2bb;
-  margin-left: auto;                 /* ★ 關鍵：推到右邊 */
+  margin-left: auto;             /* 靠右 */
+  margin-right: 0;
   text-align: left;
 }
 
 .other {
   background-color: #d9fdd3;
-  margin-right: auto;                /* 保持左側 */
+  margin-right: auto;            /* 靠左 */
+  margin-left: 0;
   text-align: left;
 }
 
-/* 可選：系統訊息置中灰色（若有套用 .system 類別） */
+/* 系統訊息置中 */
 .system {
   background: #eee;
   color: #555;
-  align-self: center;                /* 水平置中 */
+  align-self: center;
   max-width: 90%;
 }
 
@@ -81,7 +88,7 @@ h1 {
   font-size: 0.75em;
   color: #555;
   margin-top: 4px;
-  text-align: right;                 /* 右下角 */
+  text-align: right; /* 右下角 */
 }
 
 /* ====== 輸入區 ====== */
@@ -113,7 +120,7 @@ h1 {
   background-color: #218838;
 }
 
-/* ======（可選）滾動條微調，美觀用，需支援 WebKit ====== */
+/* ====== 滾動條美化（WebKit 瀏覽器） ====== */
 #chatLog::-webkit-scrollbar {
   width: 8px;
 }
