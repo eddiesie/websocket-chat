@@ -26,41 +26,40 @@ h1 {
   overflow-y: auto;
   border: 1px solid #ccc;
   margin-bottom: 10px;
-  display: flex;
-  flex-direction: column;
 }
 
 #chatLog li {
-  padding: 6px 12px;
-  margin: 4px 8px;
-  max-width: 70%;
-  border-radius: 10px;
-  clear: both;
+  padding: 6px 10px;
+  margin: 4px;
+  max-width: 80%;
+  border-radius: 8px;
   position: relative;
-  word-wrap: break-word;
-  background-color: #d4f4dd; /* 舒服的綠色 */
+  background-color: #e0f7e9;
+  word-break: break-word;
 }
 
-.self {
-  align-self: flex-end;
+#chatLog li.self {
+  background-color: #b6f7c1;
+  margin-left: auto;
   text-align: right;
 }
 
-.other {
-  align-self: flex-start;
+#chatLog li.other {
+  background-color: #d9f3e6;
+  margin-right: auto;
   text-align: left;
 }
 
 .timestamp {
   display: block;
-  font-size: 0.75em;
-  color: #555;
-  margin-top: 2px;
+  font-size: 10px;
+  color: #888;
+  margin-top: 4px;
 }
 
 #inputArea {
   display: flex;
-  gap: 5px;
+  gap: 8px;
 }
 
 #msgInput {
@@ -72,15 +71,10 @@ h1 {
 }
 
 #sendBtn {
-  padding: 10px 15px;
-  font-size: 16px;
-  background-color: #0077cc;
-  color: white;
+  padding: 10px 16px;
   border: none;
+  background-color: #3cb371;
+  color: white;
   border-radius: 5px;
   cursor: pointer;
-}
-
-#sendBtn:hover {
-  background-color: #005fa3;
 }
