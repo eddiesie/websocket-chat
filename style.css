@@ -35,51 +35,76 @@ h1 {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  align-items: flex-start; /* 避免 children 被拉滿寬度 */
+  align-items: flex-start;      /* 讓子項目以內容寬度為主 */
   box-sizing: border-box;
 }
 
 /* ====== 訊息泡泡（依內容寬度） ====== */
 #chatLog > li {
-  flex: 0 0 auto;                /* 不伸展、不壓縮 */
-  align-self: flex-start;        /* 預設靠左 */
+  /* 不要在這裡設 align-self，避免壓過 .self 的靠右規則 */
+  flex: 0 0 auto;               /* 不伸展、不壓縮 */
 
   display: inline-block;
   width: auto;
-  max-width: 78%;                /* 避免過寬 */
+  max-width: 78%;
   padding: 8px 12px;
   border-radius: 14px;
   position: relative;
   background-color: #d9fdd3;
 
-  white-space: pre-wrap;         /* 保留換行 */
-  word-break: break-word;        /* 長字可斷行 */
-  overflow-wrap: anywhere;       /* 防止長字/網址撐破版面 */
+  white-space: pre-wrap;        /* 保留換行 */
+  word-break: break-word;       /* 長字可斷行 */
+  overflow-wrap: anywhere;      /* 防止長網址撐破版面 */
   box-sizing: border-box;
-  margin: 0;                     /* 靠 margin 推位置 */
+  margin: 0;                    /* 位置交給 auto margin 控制 */
 }
 
 /* ====== 自己／別人／系統 ====== */
 .self {
   background-color: #b2f2bb;
-  margin-left: auto;             /* 靠右 */
-  margin-right: 0;
+  margin-left: auto;            /* ★ 推到右邊 */
   text-align: left;
+  align-self: flex-end;         /* ★ 雙保險：若有其它規則干擾仍靠右 */
 }
 
 .other {
   background-color: #d9fdd3;
-  margin-right: auto;            /* 靠左 */
-  margin-left: 0;
+  margin-right: auto;           /* 靠左 */
   text-align: left;
+  align-self: flex-start;
 }
 
-/* 系統訊息置中 */
+/* 系統訊息置中（若你在 JS 有套 .system 類別） */
 .system {
   background: #eee;
   color: #555;
   align-self: center;
   max-width: 90%;
+}
+
+/* ====== 小尾巴（三角形） ====== */
+/* 別人的尾巴：左側 */
+.other::after {
+  content: "";
+  position: absolute;
+  left: -6px;                   /* 尾巴伸出左邊 */
+  bottom: 10px;                 /* 尾巴垂直位置 */
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-right-color: #d9fdd3;  /* 與 .other 泡泡同色 */
+}
+
+/* 自己的尾巴：右側 */
+.self::after {
+  content: "";
+  position: absolute;
+  right: -6px;                  /* 尾巴伸出右邊 */
+  bottom: 10px;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-left-color: #b2f2bb;   /* 與 .self 泡泡同色 */
 }
 
 /* ====== 時間戳 ====== */
@@ -88,7 +113,7 @@ h1 {
   font-size: 0.75em;
   color: #555;
   margin-top: 4px;
-  text-align: right; /* 右下角 */
+  text-align: right;            /* 泡泡右下角 */
 }
 
 /* ====== 輸入區 ====== */
