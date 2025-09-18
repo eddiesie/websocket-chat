@@ -1,4 +1,4 @@
-const nickname = prompt("請輸入你的暱稱") || "匿名";
+const nickname = prompt("首次開啟需要等候1-2分即可使用。請輸入你的暱稱") || "匿名";
 const socket = new WebSocket('wss://websocket-server-kj60.onrender.com');
 
 const chatLog = document.getElementById('chatLog');
